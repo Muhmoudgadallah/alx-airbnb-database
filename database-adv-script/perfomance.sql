@@ -1,4 +1,5 @@
 -- Initial query retrieving all booking details
+EXPLAIN ANALYZE
 SELECT 
     b.booking_id,
     b.booking_date,
@@ -31,7 +32,7 @@ ORDER BY
 
 
 
--- Optimized booking details query
+-- Optimized booking details query-- Optimized booking details query with AND conditions
 SELECT 
     b.booking_id,
     b.booking_date,
@@ -56,6 +57,9 @@ INNER JOIN
     payments pay ON b.booking_id = pay.booking_id
 WHERE 
     b.booking_date >= CURRENT_DATE - INTERVAL '6 months'
+    AND b.status = 'confirmed'
+    AND pay.payment_status = 'completed'
+    AND p.is_active = true
 ORDER BY 
     b.booking_date DESC
 LIMIT 1000;
